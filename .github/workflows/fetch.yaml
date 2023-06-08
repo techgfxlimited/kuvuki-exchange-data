@@ -1,0 +1,43 @@
+
+name: Fetch and Cache
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+
+jobs:
+
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CURL
+        run: |
+          mkdir -p ./www
+          cd ./www
+          curl -s ${{ secrets.DEVICES_URL }} > devices.json
+      # Add more URLS here
+
+      - name: Upload
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './www'
+
+  cache:
+    runs-on: ubuntu-latest
+    needs: fetch
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Cache to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
