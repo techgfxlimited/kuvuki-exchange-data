@@ -21,7 +21,7 @@ jobs:
           mkdir -p ./www
           cd ./www
           curl -s ${{ secrets.DEVICES_URL }} > devices.json
-          curl -s ${{ secrets.GLOBAL_URL }} > global.json
+          curl -s ${{ secrets.GLOBALS_URL }} > globals.json
       # Add more URLS here
 
       - name: Upload
