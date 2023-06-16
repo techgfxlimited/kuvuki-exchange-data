@@ -22,6 +22,7 @@ jobs:
           cd ./www
           curl -s ${{ secrets.DEVICES_URL }} > devices.json
           curl -s ${{ secrets.GLOBALS_URL }} > globals.json
+          curl -s ${{ secrets.CONDITIONS_URL }} > conditions.json
       # Add more URLS here
 
       - name: Upload
